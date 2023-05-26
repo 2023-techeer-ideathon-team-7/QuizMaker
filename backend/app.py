@@ -8,7 +8,7 @@ openai.api_key = os.getenv('GPT_SECRET_KEY')
 
 messages = []
 def get_gpt_response(keyword, number):
-    keyword = f'아까 예시대로 퀴즈를 만들어줘. 배열값만 반환해줘. 주제: {keyword}, 문제의 수: {number}'
+    keyword = f'아까 예시대로 퀴즈를 만들어줘. 배열값만 반환해줘. answer는 아까 말한대로 boolean 값으로 넣어줘. 주제: {keyword}, 문제의 수: {number}'
     messages.append({"role":"user", "content":keyword})
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
