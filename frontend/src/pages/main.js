@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
@@ -51,6 +52,7 @@ export default function Main() {
   const [keyword, setKeyword] = useState("");
   const [number, setNumber] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -82,10 +84,17 @@ export default function Main() {
     console.log("문제수:", number);
 
     try {
-      const response = await axios.post("/api/quiz", {
-        keyword,
-        numbers: number,
-      });
+      const response = await axios
+        .post("/api/quiz", {
+          keyword,
+          number,
+        })
+        .then((response) => {
+          navigate("questions", {
+            replace: false,
+            state: { quiz: response.data },
+          });
+        });
 
       console.log("API response:", response.data);
     } catch (error) {
