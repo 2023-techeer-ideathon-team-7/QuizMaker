@@ -4,6 +4,7 @@ import "./App.css";
 import Answers from "./pages/answers";
 import Main from "./pages/main";
 import Questions from "./pages/questions";
+import Loading from "./pages/loading";
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
         <Route path="/" element={<Main />} />
         <Route path="/answers" element={<Answers />} />
         <Route path="/questions" element={<Questions />} />
+        <Route path="/loading" element={<Loading />} />
       </Routes>
     </BrowserRouter>
   );
