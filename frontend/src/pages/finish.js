@@ -9,7 +9,11 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 20px;
-  height: 100vh
+  height: 100vh;
+
+  @media (max-width: 768px){
+    width:100%;
+  }
 `;
 
 const Title = styled.h1`
@@ -19,19 +23,6 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-// const Button = styled.button`
-//   /* CSS styles for the buttons */
-//   padding: 10px 20px;
-//   margin: 10px;
-//   background-color: #D9D9D9;
-//   color: #000;
-//   border: 2px solid #000;
-//   border-radius: 10px;
-//   font-size: 16px;
-//   cursor: pointer;
-//   width: 200px;
-//   height: 40px;
-// `;
 
 const GreyButton = styled.button`
   /* CSS styles for the buttons */
@@ -72,7 +63,6 @@ const Input = styled.input`
 `;
 
 export default function Finish() {
-
 
   return (
     <Container>
