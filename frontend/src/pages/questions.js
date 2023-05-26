@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FaArrowLeft } from 'react-icons/fa';
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -21,10 +22,11 @@ const ButtonContainer = styled.div`
 const Button = styled.button`
   padding: 10px 0px;
   width: 120px;
-  background-color: #eaeaea;
+  background-color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  
 `;
 
 const PrevButton = styled(Button)`
@@ -54,8 +56,8 @@ const Questions = () => {
   useEffect(() => {
     const fetchQuizData = async () => {
       try {
-        const response = await fetch("/api/quiz");
-        const data = await response.json();
+        const response = await axios.get("/api/quiz");
+        const data = response.data;
 
         if (data.length > 0) {
           setQuestionNumber(1);

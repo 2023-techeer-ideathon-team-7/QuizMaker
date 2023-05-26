@@ -15,12 +15,12 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 24px;
+  font-size: 35px;
   margin-bottom: 16px;
 `;
 
 const Description = styled.p`
-  margin-bottom: 16px;
+  margin-bottom: 30px;
 `;
 
 const InputContainer = styled.form`
@@ -35,16 +35,19 @@ const Input = styled.input`
   margin-bottom: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 200px;
+  width: 300px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 `;
 
 const Button = styled.button`
   padding: 8px 16px;
-  background-color: #007bff;
-  color: #fff;
+  background-color: white;
+  color: black;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  width: 120px;
+  margin-top: 30px
 `;
 
 export default function Main() {
