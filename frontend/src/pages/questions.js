@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { FaArrowLeft } from 'react-icons/fa';
+import { FaArrowLeft } from "react-icons/fa";
 
 const Container = styled.div`
   display: flex;
@@ -21,7 +21,7 @@ const ButtonContainer = styled.div`
 const Button = styled.button`
   padding: 10px 0px;
   width: 120px;
-  background-color: #eaeaea;
+  background-color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -95,7 +95,9 @@ const Questions = () => {
             <PrevButton onClick={goToPreviousQuestion}>
               <ArrowIcon />
             </PrevButton>
-            <PageNumber>{questionNumber}/{totalQuestions}</PageNumber>
+            <PageNumber>
+              {questionNumber}/{totalQuestions}
+            </PageNumber>
           </ButtonContainer>
         </>
       ) : (
