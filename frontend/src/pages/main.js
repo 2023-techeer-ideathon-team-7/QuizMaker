@@ -84,7 +84,7 @@ export default function Main() {
     try {
       const response = await axios.post("/api/quiz", {
         keyword,
-        number,
+        numbers: number,
       });
 
       console.log("API response:", response.data);
