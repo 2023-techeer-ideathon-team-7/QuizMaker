@@ -94,7 +94,7 @@ def save_data():
 
     db.session.commit()
 
-    return 'Data saved successfully!'
+    return jsonify({"quiz_id": quiz.id})  # Quiz의 ID를 반환합니다
 
 @app.route('/api/quiz', methods=['GET'])
 def get_questions():
