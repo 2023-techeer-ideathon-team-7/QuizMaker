@@ -1,10 +1,24 @@
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
+from flask_sqlalchemy import SQLAlchemy
 import openai, os
 import json
 app = Flask(__name__)
 load_dotenv('.env')
 openai.api_key = os.getenv('GPT_SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+mysqlconnector://{os.environ['MARIADB_USER']}:{os.environ['MARIADB_PASSWORD']}@localhost:{os.environ['MARIADB_PORT']}/{os.environ['MARIADB_DATABASE']}"
+
+db = SQLAlchemy(app)
+
+class Quiz(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    questions = db.relationship('Question', backref='quiz', lazy=True)
+
+class Question(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    quiz_id = db.Column(db.Integer, db.ForeignKey('quiz.id'), nullable=False)
+    text = db.Column(db.String(255))
+    answer = db.Column(db.Boolean)
 
 messages = []
 def get_gpt_response(keyword, number):
@@ -49,7 +63,7 @@ def initialize():
 @app.route('/api/quiz', methods=['POST'])
 def chat():
     keyword = request.json['keyword']
-    number = request.json['numbers']
+    number = request.json['number']
     gpt_response = get_gpt_response(keyword, number)
     print(gpt_response)
     try:
@@ -63,6 +77,37 @@ def chat():
                  }'''
         return jsonify(json.loads(target))
         
+
+@app.route('/api/quiz/custom', methods=['POST'])
+def save_data():
+    data = request.json
+
+    # Quiz 생성
+    quiz = Quiz()
+    db.session.add(quiz)
+    db.session.commit()
+
+    # 각 Question을 생성하여 Quiz에 연결
+    for item in data:
+        question = Question(quiz_id=quiz.id, text=item['question'], answer=item['answer'])
+        db.session.add(question)
+
+    db.session.commit()
+
+    return 'Data saved successfully!'
+
+@app.route('/api/quiz', methods=['GET'])
+def get_questions():
+    quiz_id = request.args.get('id')  # query string에서 quiz_id 값을 가져옵니다
+    if not quiz_id:
+        return 'quiz_id parameter is required', 400
+
+    questions = Question.query.filter_by(quiz_id=quiz_id).all()
+    question_list = [
+        {"question": question.text, "answer": question.answer}
+        for question in questions
+    ]
+    return jsonify(question_list)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5555)

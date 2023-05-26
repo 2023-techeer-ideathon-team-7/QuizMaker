@@ -2,6 +2,5 @@ Flask==2.0.1
 openai==0.27.0
 requests==2.26.0
 python-dotenv==0.17.1
-
-# Flask-SQLAlchemy==3.1.0
-# mysql-connector-python==8.0.26
+Flask-SQLAlchemy==2.5.1
+mysql-connector-python==8.0.26

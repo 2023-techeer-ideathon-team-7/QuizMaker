@@ -1,6 +1,52 @@
-version: "3"
+version: "3.8"
+
+volumes:
+  db-config:
+  db-data:
+    name: db-data
+
 services:
-  flask:
-    build: ./backend
+  # flask:
+  #   build: ./backend
+  #   ports:
+  #     - 5555:5555
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: ${MARIADB_PASSWORD}
+  #     MYSQL_PASSWORD: ${MARIADB_PASSWORD}
+  #     MYSQL_DATABASE: ${MARIADB_DATABASE}
+  #     MYSQL_TCP_PORT: ${MARIADB_PORT}
+  #     MYSQL_USER: ${MARIADB_USER}
+  #     GPT_SECRET_KEY: ${GPT_SECRET_KEY}
+
+  db:
+    image: mariadb
+    container_name: db
     ports:
-      - 5555:5555
+      - 3306:3306
+    expose:
+      - "3306"
+    restart: unless-stopped
+    volumes:
+      - db-config:/etc/mysql
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MARIADB_PASSWORD}
+      MYSQL_PASSWORD: ${MARIADB_PASSWORD}
+      MYSQL_DATABASE: ${MARIADB_DATABASE}
+      MYSQL_TCP_PORT: ${MARIADB_PORT}
+      MYSQL_USER: ${MARIADB_USER}
+      TZ: Asia/Seoul
+    command: [
+        "mysqld",
+        "--lower_case_table_names=1",
+        "--character-set-server=utf8mb4",
+        "--collation-server=utf8mb4_bin",
+        "--default-time-zone=+09:00",
+        # "--client-character-set=utf8mb4",
+      ]
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge
