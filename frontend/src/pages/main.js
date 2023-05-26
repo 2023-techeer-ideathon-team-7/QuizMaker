@@ -87,20 +87,20 @@ export default function Main() {
     console.log("문제수:", number);
 
     try {
-      const response = await axios
+      await axios
         .post("/api/quiz", {
           keyword,
           number,
         })
         .then((response) => {
-          navigate("loading"); // "/loading" 페이지로 이동
+          navigate("loading");
           navigate("questions", {
             replace: false,
             state: { quiz: response.data },
           });
         });
 
-      console.log("API response:", response.data);
+      // console.log("API response:", response.data);
     } catch (error) {
       console.error("요청에 실패했습니다:", error);
     }
