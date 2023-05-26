@@ -1,7 +1,7 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 import openai, os
-
+import json
 app = Flask(__name__)
 load_dotenv('.env')
 openai.api_key = os.getenv('GPT_SECRET_KEY')
@@ -49,9 +49,20 @@ def initialize():
 @app.route('/api/quiz', methods=['POST'])
 def chat():
     keyword = request.json['keyword']
-    number = request.json['number']
+    number = request.json['numbers']
     gpt_response = get_gpt_response(keyword, number)
-    return gpt_response
+    print(gpt_response)
+    try:
+        idx = gpt_response.find('[')
+        target = gpt_response[idx:]
+        return jsonify(json.loads(target))
+    except:
+        target = '''{
+	                "errorType" : "fail",
+	                "errorMsg" : "질문 생성 실패"
+                 }'''
+        return jsonify(json.loads(target))
+        
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5555)
