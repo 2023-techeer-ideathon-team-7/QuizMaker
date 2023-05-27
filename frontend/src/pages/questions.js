@@ -100,7 +100,11 @@ const Questions = () => {
     if (totalQuestions <= questionNumber) {
       navigate("../finish", {
         replace: false,
-        state: { correctCount },
+        state: {
+          correctCount: quiz[questionNumber - 1].answer
+            ? correctCount + 1
+            : correctCount,
+        },
       });
     } else {
       setQuestion(quiz[questionNumber].question);
@@ -115,7 +119,11 @@ const Questions = () => {
     if (totalQuestions <= questionNumber) {
       navigate("../finish", {
         replace: false,
-        state: { correctCount },
+        state: {
+          correctCount: !quiz[questionNumber - 1].answer
+            ? correctCount + 1
+            : correctCount,
+        },
       });
     } else {
       setQuestion(quiz[questionNumber].question);
